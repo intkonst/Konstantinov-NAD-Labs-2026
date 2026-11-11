@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Команды ROS · Robolab{% endblock %}
+{% block content %}
+<main class="grid-main">
+  <h1>Команды ROS</h1>
+  <form class="filter" action="/" method="get">
+    <label for="ros-distance-min">Расстояние движения, м</label>
+    <div class="filter-row"><input id="ros-distance-min" name="ros_distance_min" type="number" min="0" step="any" value="{{ ros_distance_min if ros_distance_min is not none else '' }}" placeholder="От любого значения"><button class="primary" type="submit">Найти</button></div>
+    <p>Без значения — все команды</p>
+  </form>
+  <div class="command-grid">
+  {% for ros_command in ros_commands %}
+    <a class="command-card" href="/ros-commands/feed?ros_command_id={{ ros_command.ros_command_id }}" aria-label="{{ ros_command.ros_command_name }}: {{ ros_command.ros_distance_m }} метров, {{ ros_command.ros_turn_degrees }} градусов">
+      <div class="command-picture"><object data="{{ ros_command.ros_image_url }}" type="image/svg+xml" aria-label="{{ ros_command.ros_command_name }}"><img src="/static/icons/{{ ros_command.ros_action_icon }}.svg" width="32" height="32" alt="{{ ros_command.ros_command_name }}"></object><span class="command-number">{{ ros_command.ros_command_id }}</span><h2>{{ ros_command.ros_command_name }}<br>{% if ros_command.ros_command_action == 'straight' %}{{ ros_command.ros_distance_m }} м{% else %}{{ ros_command.ros_turn_degrees }}°{% endif %}</h2></div>
+      <div class="command-metrics">{{ ros_command.ros_distance_m }} м · {{ ros_command.ros_turn_degrees }}°</div>
+      <div class="command-likes">{{ icon('robot') }}<span>{{ ros_command.ros_likes_count }}</span><span class="sr-only">отметок</span></div>
+    </a>
+  {% else %}
+    <p class="empty">Команд с таким расстоянием пока нет. <a href="/">Сбросить фильтр</a></p>
+  {% endfor %}
+  </div>
+</main>
+{% endblock %}

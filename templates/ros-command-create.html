@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Новая ROS-команда · Robolab{% endblock %}
+{% block content %}
+<main class="create-main">
+  <h1>Новая ROS-команда</h1><p class="subtitle">Задайте действие и параметры движения</p>
+  <form class="command-form">
+    <input class="action-choice sr-only" type="radio" name="ros_command_action" id="ros-straight" value="straight" {% if ros_command.ros_command_action == 'straight' %}checked{% endif %}>
+    <input class="action-choice sr-only" type="radio" name="ros_command_action" id="ros-left" value="left" {% if ros_command.ros_command_action == 'left' %}checked{% endif %}>
+    <input class="action-choice sr-only" type="radio" name="ros_command_action" id="ros-right" value="right" {% if ros_command.ros_command_action == 'right' %}checked{% endif %}>
+    <div class="media-fields">
+      <label class="upload">{{ icon('image') }}<span>Изображение</span><small>Фото или превью</small><input type="file" accept="image/*" aria-label="Выбрать изображение"></label>
+      <label class="upload">{{ icon('video') }}<span>Вертикальное видео</span><small>Ролик 9:16</small><input type="file" accept="video/*" aria-label="Выбрать вертикальное видео"></label>
+    </div>
+    <div class="draft-image"><object data="{{ ros_command.ros_image_url }}" type="image/svg+xml" aria-label="Изображение черновика"><img src="/static/icons/{{ ros_command.ros_action_icon }}.svg" width="24" height="24" alt="Движение вперёд"></object><span>Изображение черновика</span></div>
+    <label class="field">Название команды<input name="ros_command_name" value="{{ ros_command.ros_command_name }}" autocomplete="off"></label>
+    <label class="field">Краткое описание<textarea name="ros_command_description" rows="2">{{ ros_command.ros_command_description }}</textarea></label>
+    <fieldset class="action-fieldset"><legend>Действие</legend><div class="action-options">
+      <label for="ros-straight" class="action-label straight-label"><img src="/static/icons/forward.svg" width="22" height="22" alt="">Прямо</label>
+      <label for="ros-left" class="action-label left-label"><img src="/static/icons/turn-left.svg" width="22" height="22" alt="">Налево</label>
+      <label for="ros-right" class="action-label right-label"><img src="/static/icons/turn-right.svg" width="22" height="22" alt="">Направо</label>
+    </div></fieldset>
+    <label class="field distance-field">Расстояние, м<span class="unit-input"><input name="ros_distance_m" type="number" min="0" step="any" value="{{ ros_command.ros_distance_m }}"><span>м</span></span></label>
+    <label class="field angle-field">Угол поворота, °<span class="unit-input"><input name="ros_turn_degrees" type="number" min="0" max="360" step="any" value="{{ ros_command.ros_turn_degrees or 90 }}"><span>°</span></span></label>
+    <details class="start-position" open><summary>Начальное положение</summary><div class="coordinate-fields">
+      <label class="field">X, м<input name="ros_start_x_m" type="number" step="any" value="{{ ros_command.ros_start_x_m }}"></label>
+      <label class="field">Y, м<input name="ros_start_y_m" type="number" step="any" value="{{ ros_command.ros_start_y_m }}"></label>
+      <label class="field">Направление, °<input name="ros_start_heading_degrees" type="number" step="any" value="{{ ros_command.ros_start_heading_degrees }}"></label>
+    </div><p>0° — вдоль +X; положительный поворот — влево</p></details>
+    <div class="command-preview"><span class="straight-preview"><img src="/static/icons/forward.svg" width="18" height="18" alt="">Прямолинейное движение · м</span><span class="left-preview"><img src="/static/icons/turn-left.svg" width="18" height="18" alt="">Поворот налево · градусы</span><span class="right-preview"><img src="/static/icons/turn-right.svg" width="18" height="18" alt="">Поворот направо · градусы</span><small>Параметры заданы в полях выше</small></div>
+    <button class="primary next-disabled" type="button" disabled aria-describedby="ros-draft-note">Далее</button>
+    <p class="form-note" id="ros-draft-note">Заполнение черновика. Сохранение пока недоступно.</p>
+  </form>
+</main>
+{% endblock %}

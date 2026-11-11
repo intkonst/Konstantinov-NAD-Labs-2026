@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ ros_command.ros_command_name }} · Robolab{% endblock %}
+{% block app_class %}feed-app{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<main class="feed-main">
+  <video class="command-video" autoplay muted loop playsinline poster="{{ ros_command.ros_video_poster_url }}" aria-label="{{ ros_command.ros_command_name }}"><source src="{{ ros_command.ros_video_url }}" type="video/mp4"></video>
+  <div class="feed-shade"></div>
+  <div class="feed-metrics"><strong>Расстояние&nbsp; {{ ros_command.ros_distance_m }} м &nbsp; Угол&nbsp; {{ ros_command.ros_turn_degrees }}°</strong><span>{% if ros_command.ros_command_action == 'straight' %}Движение вдоль направления робота{% else %}Поворот робота на месте{% endif %}</span></div>
+  <div class="feed-controls"><div class="robot-count" aria-label="{{ ros_command.ros_likes_count }} отметок">{{ icon('robot') }}<span>{{ ros_command.ros_likes_count }}</span></div><a href="/ros-commands/feed?ros_command_id={{ ros_command.ros_command_id }}&amp;next=true" aria-label="Следующая команда">{{ icon('next') }}<span>Далее</span></a></div>
+  <div class="feed-description"><h1>{{ ros_command.ros_command_name }}</h1><details><summary>Описание команды <span>ещё</span></summary><p>{{ ros_command.ros_command_description }}</p></details></div>
+  <div class="feed-progress" aria-hidden="true"></div>
+</main>
+{% endblock %}

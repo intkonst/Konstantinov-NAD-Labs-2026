@@ -1,0 +1,22 @@
+{% macro icon(name, cls='icon') -%}<svg class="{{ cls }}" aria-hidden="true"><use href="/static/icons/ui.svg#{{ name }}"></use></svg>{%- endmacro %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15253e">
+  <title>{% block title %}Robolab{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="app {% block app_class %}{% endblock %}">
+    {% block header %}<header class="header"><a class="brand" href="/" aria-label="Robolab — команды ROS"><img src="/static/icons/logo.svg" width="36" height="36" alt=""><span>Robolab</span></a></header>{% endblock %}
+    {% block content %}{% endblock %}
+    <nav class="navigation" aria-label="Основная навигация">
+      <a href="/ros-commands/feed" aria-label="Лента" {% if ros_active_page == 'feed' %}aria-current="page"{% endif %}>{{ icon('home') }}<span class="sr-only">Лента</span></a>
+      <a href="/ros-commands/draft" aria-label="Создание команды" {% if ros_active_page == 'create' %}aria-current="page"{% endif %}>{{ icon('add') }}<span class="sr-only">Создание</span></a>
+      <a href="/" aria-label="Команды ROS" {% if ros_active_page == 'grid' %}aria-current="page"{% endif %}>{{ icon('grid') }}<span class="sr-only">Команды</span></a>
+    </nav>
+  </div>
+</body>
+</html>

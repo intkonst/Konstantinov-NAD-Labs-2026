@@ -1,0 +1,17 @@
+services:
+  silo:
+    image: pgsty/silo:RELEASE.2026-11-09T00-00-00Z
+    # Прямой запуск обходит неработающую оболочку entrypoint текущего образа.
+    entrypoint: ["/usr/bin/silo"]
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${SILO_ROOT_USER:-localadmin}
+      MINIO_ROOT_PASSWORD: ${SILO_ROOT_PASSWORD:-localdevelopment}
+      MINIO_CONSOLE_ADDRESS: ":9001"
+    command: server /data --console-address :9001
+    volumes:
+      - ros-media:/data
+volumes:
+  ros-media:
